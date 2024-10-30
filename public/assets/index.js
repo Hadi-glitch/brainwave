@@ -20,6 +20,8 @@ import chromecast from "./chrome-cast.svg";
 import sliders04 from "./sliders-04.svg";
 import loading from "./loading.png";
 import background from "./background.jpg";
+import star from "./star_filled.svg"
+import crown from "./crown.svg";
 
 import curve from "./hero/curve.png";
 import robot from "./hero/robot.jpg";
@@ -74,6 +76,19 @@ import facebook from "./socials/facebook.svg";
 import instagram from "./socials/instagram.svg";
 import telegram from "./socials/telegram.svg";
 import twitter from "./socials/twitter.svg";
+import frame from "./frame.svg"
+import dice from "./dice.png";
+import bgImage from "./bg-image.png";
+import copy from "./copy.svg";
+import download from "./download.svg";
+import settings from "./settings.svg";
+import close from "./close.svg";
+import repeat from "./repeat.svg";
+
+import model1 from "./model-1.png"
+import model2 from "./model-2.png"
+import model3 from "./model-3.png"
+import model4 from "./model-4.png"
 
 export {
   brainwave,
@@ -144,4 +159,18 @@ export {
   instagram,
   telegram,
   twitter,
+  star,
+  crown,
+  model1,
+  model2,
+  model3,
+  model4,
+  frame,
+  dice,
+  bgImage,
+  copy,
+  download,
+  settings,
+  close,
+  repeat,
 };

@@ -10,6 +10,7 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import Image from "next/image";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import { crown, star } from "@/public/assets";
 
 const Header = () => {
   const pathname = usePathname();
@@ -34,11 +35,11 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+      className={`fixed top-0 left-0 w-full z-40 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
-      <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
+      <div className="flex items-center justify-between px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <a href="#hero" className="block w-[12rem] xl:mr-8">
           <Image
             src="/assets/brainwave.svg"
@@ -53,9 +54,7 @@ const Header = () => {
             openNavigation ? "flex" : "hidden"
           } fixed top-[5rem] left-0 bottom-0 right-0 bg-n-8 border-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
-          {pathname === "/generation" ? (
-            <div className="py-10"></div>
-          ) : (
+          {pathname !== "/generation" && (
             <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
               {navigation.map((item) => (
                 <a
@@ -78,9 +77,27 @@ const Header = () => {
           <HamburgerMenu />
         </nav>
 
-        <SignedIn>
-          <UserButton afterSwitchSessionUrl="/" />
-        </SignedIn>
+        <div className="flex">
+          {pathname === "/generation" && (
+            <div className="bg-n-14 my-5 hidden lg:flex mx-6 rounded-xl py-2.5 px-3 gap-2">
+              <div className="bg-n-15 flex text-lg items-center justify-center text-center gap-1 px-3 py-1 font-bold rounded-xl">
+                <span className="text-center">50</span>
+                <Image src={star} width={15} height={15} alt="star" />
+              </div>
+
+              <button className="bg-[#3F1564] px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
+                <Image src={crown} width={15} height={15} alt="crown" />
+                <span className="text-[#AC6AFF] font-bold text-center">
+                  Upgrade
+                </span>
+              </button>
+            </div>
+          )}
+
+          <SignedIn afterSwitchSessionUrl="/generation">
+            <UserButton  />
+          </SignedIn>
+        </div>
 
         <SignedOut>
           <a
@@ -96,7 +113,9 @@ const Header = () => {
         </SignedOut>
 
         <Button
-          className="ml-auto lg:hidden"
+          className={`ml-auto lg:hidden ${
+            pathname === "/generation" && "hidden"
+          }`}
           px="px-3"
           onClick={toggleNavigation}
         >
