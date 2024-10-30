@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Button from "./Button";
 import Section from "./Section";
@@ -10,9 +10,20 @@ import Generating from "./Generating";
 import Notification from "./Notification";
 import Image from "next/image";
 import CompanyLogos from "./CompanyLogos";
+import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Hero = () => {
   const parallaxRef = useRef(null);
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push("/generation");
+    }
+  }, []);
 
   return (
     <Section
@@ -25,8 +36,7 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}>
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[4rem] md:mb-20 lg:mb-[6rem]">
           <h1 className="h1 mb-6">
-            Explore the Possibilities of&nbsp;AI&nbsp;Chatting with 
-            {' '}
+            Explore the Possibilities of&nbsp;AI&nbsp;Chatting with{" "}
             <span className="inline-block relative">
               Brainwave{" "}
               <Image
@@ -73,7 +83,10 @@ const Hero = () => {
                 </ScrollParallax>
 
                 <ScrollParallax isAbsolutelyPositioned>
-                    <Notification className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex" title="Code generation" />
+                  <Notification
+                    className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
+                    title="Code generation"
+                  />
                 </ScrollParallax>
               </div>
             </div>
