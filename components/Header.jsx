@@ -39,7 +39,11 @@ const Header = () => {
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
-      <div className="flex items-center justify-between px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
+      <div
+        className={`flex items-center justify-between px-5 lg:px-7.5 xl:px-10 max-lg:py-4 ${
+          pathname === "/pricing" && "py-4"
+        }`}
+      >
         <a href="#hero" className="block w-[12rem] xl:mr-8">
           <Image
             src="/assets/brainwave.svg"
@@ -54,7 +58,7 @@ const Header = () => {
             openNavigation ? "flex" : "hidden"
           } fixed top-[5rem] left-0 bottom-0 right-0 bg-n-8 border-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
-          {pathname !== "/generation" && (
+          {!(pathname === "/generation" || pathname === "/pricing") && (
             <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
               {navigation.map((item) => (
                 <a
@@ -95,7 +99,7 @@ const Header = () => {
           )}
 
           <SignedIn afterSwitchSessionUrl="/generation">
-            <UserButton  />
+            <UserButton />
           </SignedIn>
         </div>
 

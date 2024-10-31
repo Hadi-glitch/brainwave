@@ -429,3 +429,75 @@ export const randomPrompts = [
   "A city where each building is an enormous crystal, refracting sunlight into vibrant rainbow colors.",
   "A cozy Victorian-style library, with towering bookshelves, a crackling fireplace, and armchairs for reading.",
 ];
+
+export const plans = [
+  {
+    name: "Starter",
+    price: "Free",
+    description: "Basic features to get you started.",
+    features: [
+      {
+        name: "Basic AI Chat",
+        info: "Access to our AI chatbot with basic functionality",
+      },
+      {
+        name: "5 Code Generations/day",
+        info: "Generate up to 5 code snippets per day",
+      },
+      { name: "Community Support", info: "Get help from our community forums" },
+    ],
+    buttonLabel: "Get Started",
+    popular: false,
+  },
+  {
+    name: "Pro",
+    price: "$15",
+    period: "month",
+    description: "Unlock advanced features for power users.",
+    features: [
+      {
+        name: "Unlimited AI Chat",
+        info: "Unlimited access to our advanced AI chatbot",
+      },
+      {
+        name: "Unlimited Code Generation",
+        info: "Generate as many code snippets as you need",
+      },
+      {
+        name: "Priority Support",
+        info: "Get faster responses from our support team",
+      },
+      {
+        name: "Access to New Features",
+        info: "Be the first to try our latest features",
+      },
+    ],
+    buttonLabel: "Upgrade to Pro",
+    popular: true,
+  },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    description: "Custom solutions for larger teams.",
+    features: [
+      {
+        name: "Customized AI Solutions",
+        info: "Tailored AI models for your specific needs",
+      },
+      {
+        name: "Dedicated Account Manager",
+        info: "Personal support from an account manager",
+      },
+      {
+        name: "Onboarding & Training",
+        info: "Comprehensive onboarding for your team",
+      },
+      {
+        name: "24/7 Support",
+        info: "Round-the-clock support for critical issues",
+      },
+    ],
+    buttonLabel: "Contact Sales",
+    popular: false,
+  },
+];
