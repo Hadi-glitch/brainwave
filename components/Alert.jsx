@@ -36,7 +36,7 @@ export default function Component({ setShowAlert = () => {} }) {
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2 text-2xl">
             <AlertTriangle className="h-6 w-6 text-yellow-500" />
-            You're out of credits!
+            You&apos;re out of credits!
           </AlertDialogTitle>
           <AlertDialogDescription className="text-base">
             Come back next month for more credits or upgrade your plan to
