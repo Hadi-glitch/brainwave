@@ -11,11 +11,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAppContext } from "@/app/context/AppContext";
+import Checkout from "@/components/Checkout";
 
 export default function PricingSection() {
   const [hoveredPlan, setHoveredPlan] = useState(null);
-  const router = useRouter();
+  const { userId } = useAppContext();
 
   return (
     <section className="py-20 mt-20 h-[92vh]" id="pricing">
@@ -82,16 +84,19 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Button
-                onClick={() => router.push("/sign-up")}
-                className={`w-full py-3 ${
-                  plan.popular
-                    ? "bg-white text-purple-600 hover:bg-gray-100"
-                    : "bg-purple-600 text-white hover:bg-purple-700"
-                }`}
+              <Link
+                href={plan.buttonLabel === "Get Started" ? "/sign-up" : "#"}
               >
-                {plan.buttonLabel}
-              </Button>
+                <Button
+                  className={`w-full py-3 ${
+                    plan.popular
+                      ? "bg-white text-purple-600 hover:bg-gray-100"
+                      : "bg-purple-600 text-white hover:bg-purple-700"
+                  }`}
+                >
+                  {plan.buttonLabel}
+                </Button>
+              </Link>
             </motion.div>
           ))}
         </div>

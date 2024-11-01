@@ -13,6 +13,8 @@ export const AppProvider = ({ children }) => {
   const [height, setHeight] = useState(512);
   const [model, setModel] = useState("Visora");
   const [show, setShow] = useState(false);
+  const [credits, setCredits] = useState(0)
+  const [userId, setUserId] = useState(null)
 
   return (
     <AppContext.Provider
@@ -33,6 +35,10 @@ export const AppProvider = ({ children }) => {
         setModel,
         show,
         setShow,
+        credits,
+        setCredits,
+        userId,
+        setUserId,
       }}
     >
       {children}

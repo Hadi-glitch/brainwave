@@ -1,27 +1,31 @@
 "use client";
 
 import { useAppContext } from "@/app/context/AppContext";
+import Alert from "@/components/Alert";
 import Prompt from "@/components/Prompt";
 import Sidebar from "@/components/Sidebar";
+import {
+  getUserCredits,
+  getUserId,
+  updateUserCredits,
+} from "@/lib/actions/user.actions";
 import { convertAspectRatio } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
 const Page = () => {
   const {
-    prompt,
-    setPrompt,
-    style,
-    setStyle,
     numImages,
-    setNumImages,
     aspectRatio,
-    setAspectRatio,
     width,
     setWidth,
     height,
     setHeight,
-    model,
     show,
+    credits,
+    setCredits,
+    userId,
+    setUserId
   } = useAppContext();
 
   const [loading, setLoading] = useState(false);
@@ -29,6 +33,36 @@ const Page = () => {
   const [dimensions, setDimensions] = useState("");
   const [imagesArray, setImagesArray] = useState([]);
   const [generating, setGenerating] = useState(false);
+  const { user } = useUser();
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      if (user?.id) {
+        try {
+          const fetchedUserId = await getUserId(user.id);
+          setUserId(fetchedUserId);
+        } catch (error) {
+          console.error("Error fetching user ID:", error);
+        }
+      }
+    };
+    fetchUserId();
+  }, [user?.id]);
+
+  useEffect(() => {
+    const fetchUserCredits = async () => {
+      if (userId) {
+        try {
+          const fetchedCredits = await getUserCredits(userId);
+          setCredits(fetchedCredits);
+        } catch (error) {
+          console.error("Error fetching credits:", error);
+        }
+      }
+    };
+    fetchUserCredits();
+  }, [userId]);
 
   useEffect(() => {
     if (aspectRatio && aspectRatio !== "Custom") {
@@ -44,6 +78,12 @@ const Page = () => {
 
   const generateImage = async (prompt) => {
     if (prompt === "") return;
+
+    if (credits < 5) {
+      setShowAlert(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setGenerating(true);
@@ -72,24 +112,25 @@ const Page = () => {
       const data = await response.json();
       console.log(data);
 
-      // Create an array of objects for the current response's data
       const newImageData = [
         {
           generationTime: data.generationTime,
-          images: data.output, // Assuming data.output is an array of image URLs
+          images: data.output,
           prompt,
           width: data.meta.width,
           height: data.meta.height,
         },
       ];
 
-      // Update the imagesArray state by adding the new array
       setImagesArray((prevImages) => [...prevImages, newImageData]);
+
+      const updatedCredits = await updateUserCredits(userId, -5);
+      setCredits(updatedCredits);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
-      setGenerating(true);
+      setGenerating(false);
     }
 
     console.log(imagesArray);
@@ -98,18 +139,20 @@ const Page = () => {
 
   return (
     <div
-      className={`flex flex-col md:flex-row h-[90vh] lg:h-[85vh] lg:mx-10  ${
+      className={`flex flex-col md:flex-row h-[90vh] lg:h-[85vh] lg:mx-10 ${
         show ? "p-0" : "max-lg:px-6"
       }`}
     >
       <Sidebar />
       <Prompt
+        credits={credits}
         imagesArray={imagesArray}
         generateImage={generateImage}
         generating={generating}
         loading={loading}
         error={error}
       />
+      {showAlert && <Alert setShowAlert={setShowAlert} />}
     </div>
   );
 };

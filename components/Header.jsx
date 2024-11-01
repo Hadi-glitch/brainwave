@@ -1,20 +1,23 @@
 "use client";
 
 import { navigation } from "@/constants";
-import { useLocation } from "react-router-dom";
 import Button from "./Button";
 import MenuSvg from "@/public/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useEffect, useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import Image from "next/image";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { crown, star } from "@/public/assets";
+import { useAppContext } from "@/app/context/AppContext";
+import Link from "next/link";
 
 const Header = () => {
   const pathname = usePathname();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const { credits } = useAppContext();
+  const { user } = useUser();
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -85,35 +88,37 @@ const Header = () => {
           {pathname === "/generation" && (
             <div className="bg-n-14 my-5 hidden lg:flex mx-6 rounded-xl py-2.5 px-3 gap-2">
               <div className="bg-n-15 flex text-lg items-center justify-center text-center gap-1 px-3 py-1 font-bold rounded-xl">
-                <span className="text-center">50</span>
+                <span className="text-center">{credits}</span>
                 <Image src={star} width={15} height={15} alt="star" />
               </div>
 
-              <button className="bg-[#3F1564] px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
-                <Image src={crown} width={15} height={15} alt="crown" />
-                <span className="text-[#AC6AFF] font-bold text-center">
-                  Upgrade
-                </span>
-              </button>
+              <Link href="/pricing">
+                <button className="bg-[#3F1564] w-full h-full px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
+                  <Image src={crown} width={15} height={15} alt="crown" />
+                  <span className="text-[#AC6AFF] font-bold text-center">
+                    Upgrade
+                  </span>
+                </button>
+              </Link>
             </div>
           )}
 
-          <SignedIn afterSwitchSessionUrl="/generation">
+          <SignedIn>
             <UserButton />
           </SignedIn>
         </div>
 
         <SignedOut>
-          <a
+          <Link
             href="/sign-up"
             className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
           >
             New Account
-          </a>
+          </Link>
 
-          <Button className="hidden lg:flex" href="/sign-in">
-            Sign in
-          </Button>
+          <Link href="/sign-in">
+            <Button className="hidden lg:flex">Sign in</Button>
+          </Link>
         </SignedOut>
 
         <Button
