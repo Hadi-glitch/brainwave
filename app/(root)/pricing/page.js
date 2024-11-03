@@ -21,7 +21,6 @@ export default function PricingSection() {
   const isLoggedIn = !!userId;
 
   const renderButton = (plan, index) => {
-    // For the first card (index 0)
     if (index === 0) {
       if (isLoggedIn) {
         return (
@@ -42,19 +41,12 @@ export default function PricingSection() {
       );
     }
 
-    // For the second card (index 1)
     if (index === 1) {
       return (
-        <Checkout
-          plan={plan.name}
-          amount={15}
-          credits={1500}
-          buyerId={userId}
-        />
+        <Checkout plan={"Pro"} amount={15} credits={1500} buyerId={userId} />
       );
     }
 
-    // For the third card (index 2)
     return (
       <Link href={plan.buttonLabel === "Get Started" ? "/sign-up" : "#"}>
         <Button

@@ -130,7 +130,7 @@ const Page = () => {
       setError(err.message);
     } finally {
       setLoading(false);
-      setGenerating(false);
+      setGenerating(true);
     }
 
     console.log(imagesArray);

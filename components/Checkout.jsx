@@ -38,7 +38,7 @@ const Checkout = ({ plan, amount, credits, buyerId }) => {
   }, []);
 
   const onCheckout = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     const transaction = {
       plan,
       amount,
