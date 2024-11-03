@@ -18,6 +18,57 @@ import Checkout from "@/components/Checkout";
 export default function PricingSection() {
   const [hoveredPlan, setHoveredPlan] = useState(null);
   const { userId } = useAppContext();
+  const isLoggedIn = !!userId;
+
+  const renderButton = (plan, index) => {
+    // For the first card (index 0)
+    if (index === 0) {
+      if (isLoggedIn) {
+        return (
+          <Button
+            className="w-full py-3 bg-gray-400 text-white cursor-not-allowed"
+            disabled
+          >
+            Current Plan
+          </Button>
+        );
+      }
+      return (
+        <Link href="/sign-up">
+          <Button className="w-full py-3 bg-purple-600 text-white hover:bg-purple-700">
+            {plan.buttonLabel}
+          </Button>
+        </Link>
+      );
+    }
+
+    // For the second card (index 1)
+    if (index === 1) {
+      return (
+        <Checkout
+          plan={plan.name}
+          amount={15}
+          credits={1500}
+          buyerId={userId}
+        />
+      );
+    }
+
+    // For the third card (index 2)
+    return (
+      <Link href={plan.buttonLabel === "Get Started" ? "/sign-up" : "#"}>
+        <Button
+          className={`w-full py-3 ${
+            plan.popular
+              ? "bg-white text-purple-600 hover:bg-gray-100"
+              : "bg-purple-600 text-white hover:bg-purple-700"
+          }`}
+        >
+          {plan.buttonLabel}
+        </Button>
+      </Link>
+    );
+  };
 
   return (
     <section className="py-20 mt-20 h-[92vh]" id="pricing">
@@ -84,25 +135,7 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href={plan.buttonLabel === "Get Started" ? "/sign-up" : "#"}
-              >
-                <Button
-                  className={`w-full py-3 ${
-                    plan.popular
-                      ? "bg-white text-purple-600 hover:bg-gray-100"
-                      : "bg-purple-600 text-white hover:bg-purple-700"
-                  }`}
-                >
-                  {plan.buttonLabel}
-                </Button>
-              </Link>
-              <Checkout
-                plan={plan.name}
-                amount={15}
-                credits={150}
-                buyerId={userId}
-              />
+              {renderButton(plan, index)}
             </motion.div>
           ))}
         </div>

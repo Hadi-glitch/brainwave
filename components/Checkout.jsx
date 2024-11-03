@@ -8,12 +8,7 @@ import { checkoutCredits } from "@/lib/actions/transaction.actions";
 
 import { Button } from "./ui/button";
 
-const Checkout = ({
-  plan,
-  amount,
-  credits,
-  buyerId,
-}) => {
+const Checkout = ({ plan, amount, credits, buyerId }) => {
   const { toast } = useToast();
 
   useEffect(() => {
@@ -42,7 +37,8 @@ const Checkout = ({
     }
   }, []);
 
-  const onCheckout = async () => {
+  const onCheckout = async (e) => {
+    e.preventDefault(); // Prevent default form submission
     const transaction = {
       plan,
       amount,
@@ -54,14 +50,14 @@ const Checkout = ({
   };
 
   return (
-    <form action={onCheckout} method="POST">
+    <form>
       <section>
         <Button
-          type="submit"
+          onClick={onCheckout}
           role="link"
-          className="w-full rounded-full bg-purple-gradient bg-cover"
+          className="bg-white text-purple-600 hover:bg-gray-100 w-full py-3"
         >
-          Buy Credit
+          Upgrade to Pro
         </Button>
       </section>
     </form>
