@@ -97,6 +97,12 @@ export default function PricingSection() {
                   {plan.buttonLabel}
                 </Button>
               </Link>
+              <Checkout
+                plan={plan.name}
+                amount={15}
+                credits={150}
+                buyerId={userId}
+              />
             </motion.div>
           ))}
         </div>
