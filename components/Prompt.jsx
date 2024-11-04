@@ -259,7 +259,7 @@ const Prompt = ({
                   : "bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 shadow-[0_0_5px_rgba(147,51,234,0.3)]"
               }`}
               onClick={() => {
-                generateImage(prompt)
+                generateImage(prompt);
               }}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}

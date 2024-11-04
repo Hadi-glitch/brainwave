@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const [show, setShow] = useState(false);
   const [credits, setCredits] = useState(0)
   const [userId, setUserId] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null)
 
   return (
     <AppContext.Provider
@@ -39,6 +40,8 @@ export const AppProvider = ({ children }) => {
         setCredits,
         userId,
         setUserId,
+        currentUser,
+        setCurrentUser,
       }}
     >
       {children}

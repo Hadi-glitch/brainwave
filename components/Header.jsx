@@ -17,7 +17,7 @@ const Header = () => {
   const pathname = usePathname();
   const [openNavigation, setOpenNavigation] = useState(false);
   const { credits } = useAppContext();
-  const { user } = useUser();
+  const { currentUser } = useAppContext();
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -92,14 +92,16 @@ const Header = () => {
                 <Image src={star} width={15} height={15} alt="star" />
               </div>
 
-              <Link href="/pricing">
-                <button className="bg-[#3F1564] w-full h-full px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
-                  <Image src={crown} width={15} height={15} alt="crown" />
-                  <span className="text-[#AC6AFF] font-bold text-center">
-                    Upgrade
-                  </span>
-                </button>
-              </Link>
+              {currentUser?.plan === "Starter" && (
+                <Link href="/pricing">
+                  <button className="bg-[#3F1564] w-full h-full px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
+                    <Image src={crown} width={15} height={15} alt="crown" />
+                    <span className="text-[#AC6AFF] font-bold text-center">
+                      Upgrade
+                    </span>
+                  </button>
+                </Link>
+              )}
             </div>
           )}
 
