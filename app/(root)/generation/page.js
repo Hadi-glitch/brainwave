@@ -5,11 +5,13 @@ import Alert from "@/components/Alert";
 import Prompt from "@/components/Prompt";
 import Sidebar from "@/components/Sidebar";
 import {
+  getUserById,
   getUserCredits,
   getUserId,
+  setUserCredits,
   updateUserCredits,
 } from "@/lib/actions/user.actions";
-import { convertAspectRatio } from "@/lib/utils";
+import { convertAspectRatio, resetPlan } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
@@ -25,7 +27,7 @@ const Page = () => {
     credits,
     setCredits,
     userId,
-    setUserId
+    setUserId,
   } = useAppContext();
 
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,8 @@ const Page = () => {
   const [generating, setGenerating] = useState(false);
   const { user } = useUser();
   const [showAlert, setShowAlert] = useState(false);
+  const [userPlan, setUserPlan] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -63,6 +67,47 @@ const Page = () => {
     };
     fetchUserCredits();
   }, [userId]);
+
+  useEffect(() => {
+    const checkPlan = async () => {
+      if (!userId) return;
+
+      try {
+        const newUser = await getUserById(userId);
+        setCurrentUser(newUser);
+
+        if (user) {
+          setUserPlan(user.plan);
+
+          const lastReset = new Date(newUser.lastCreditReset);
+          const currentDate = new Date();
+
+          // Calculate days since last reset
+          const daysSinceReset = Math.floor(
+            (currentDate - lastReset) / (1000 * 60 * 60 * 24)
+          );
+
+          // If it's been 30 days since last reset
+          if (daysSinceReset >= 30) {
+            await setUserCredits(
+              userId,
+              user.plan === "Pro" ? 1500 : 150,
+              user.plan
+            );
+          }
+        }
+      } catch (error) {
+        console.error("Error checking plan:", error);
+      }
+    };
+
+    checkPlan();
+  }, [userId, user]);
+
+  // If you need to monitor currentUser changes, use a separate useEffect
+  useEffect(() => {
+    console.log("Current user updated:", currentUser);
+  }, [currentUser]);
 
   useEffect(() => {
     if (aspectRatio && aspectRatio !== "Custom") {
