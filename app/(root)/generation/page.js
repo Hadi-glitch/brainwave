@@ -11,7 +11,7 @@ import {
   setUserCredits,
   updateUserCredits,
 } from "@/lib/actions/user.actions";
-import { convertAspectRatio, resetPlan } from "@/lib/utils";
+import { convertAspectRatio } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
@@ -68,41 +68,39 @@ const Page = () => {
     fetchUserCredits();
   }, [userId]);
 
-  // useEffect(() => {
-  //   const checkPlan = async () => {
-  //     if (!user) return;
+  useEffect(() => {
+    const checkPlan = async () => {
+      if (!userId) return;
 
-  //     try {
-  //       const lastReset = new Date(user.lastCreditReset);
-  //       const currentDate = new Date();
+      try {
+        const newUser = await getUserById(userId);
+        setCurrentUser(newUser);
 
-  //       // Calculate days since last reset
-  //       const daysSinceReset = Math.floor(
-  //         (currentDate - lastReset) / (1000 * 60 * 60 * 24)
-  //       );
+        if (user) {
+          const lastReset = new Date(newUser.lastCreditReset);
+          const currentDate = new Date();
 
-  //       // If it's been 30 days since last reset
-  //       if (daysSinceReset >= 30) {
-  //         const updatedCredits = await setUserCredits(
-  //           userId,
-  //           user.plan === "Pro" ? 1500 : 150,
-  //           user.plan
-  //         );
-  //         setCurrentUser((prevUser) => ({
-  //           ...prevUser,
-  //           credits: updatedCredits.credits,
-  //           lastCreditReset: updatedCredits.lastCreditReset,
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error checking plan:", error);
-  //     }
-  //   };
+          // Calculate days since last reset
+          const daysSinceReset = Math.floor(
+            (currentDate - lastReset) / (1000 * 60 * 60 * 24)
+          );
 
-  //   if (user) {
-  //     checkPlan();
-  //   }
-  // }, [userId, user]);
+          // If it's been 30 days since last reset
+          if (daysSinceReset >= 30) {
+            await setUserCredits(
+              userId,
+              user.plan === "Pro" ? 1500 : 150,
+              user.plan
+            );
+          }
+        }
+      } catch (error) {
+        console.error("Error checking plan:", error);
+      }
+    };
+
+    checkPlan();
+  }, [userId, user]);
 
   useEffect(() => {
     console.log("Current user updated:", currentUser);

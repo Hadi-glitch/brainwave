@@ -17,6 +17,7 @@ import Loader from "./Loader";
 import { saveAs } from "file-saver";
 import { getRandomPrompt } from "@/lib/utils";
 import { randomPrompts } from "@/constants";
+import Link from "next/link";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +30,7 @@ const Prompt = ({
   loading,
   credits,
 }) => {
-  const { prompt, setPrompt, height, width, numImages, show, setShow } =
+  const { prompt, setPrompt, height, width, numImages, show, setShow, currentUser } =
     useAppContext();
   const [isHovered, setIsHovered] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -94,12 +95,16 @@ const Prompt = ({
                 <Image src={star} width={15} height={15} alt="star" />
               </div>
 
-              <button className="bg-[#3F1564] px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
-                <Image src={crown} width={15} height={15} alt="crown" />
-                <span className="text-[#AC6AFF] font-bold text-center">
-                  Upgrade
-                </span>
-              </button>
+              {currentUser?.plan === "Starter" && (
+                <Link href="/pricing">
+                  <button className="bg-[#3F1564] w-full h-full px-2 flex items-center justify-center gap-1 rounded-lg cursor-pointer hover:bg-[#30114b]">
+                    <Image src={crown} width={15} height={15} alt="crown" />
+                    <span className="text-[#AC6AFF] font-bold text-center">
+                      Upgrade
+                    </span>
+                  </button>
+                </Link>
+              )}
             </div>
             <div
               className="h-fit bg-n-14 p-2 rounded-md lg:hidden"

@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
     <div
       className={`bg-n-14 max-lg:fixed max-lg:top-0 transition-all duration-200 space-y-6 lg:space-y-0  ${
-        show ? "max-lg:left-0 w-full sm:max-w-96" : "max-lg:-left-96 w-fit"
+        show ? "max-lg:left-0 w-full sm:max-w-96" : "max-lg:-left-[25rem] w-fit"
       } max-lg:z-40 lg:flex h-full px-5 py-2 lg:mt-[7.5rem] rounded-lg flex-col gap-5`}
     >
       <div className="flex justify-between items-center">
