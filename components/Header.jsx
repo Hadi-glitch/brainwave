@@ -81,7 +81,9 @@ const Header = () => {
               ))}
             </div>
           )}
-          <HamburgerMenu />
+          {!(pathname === "/generation" || pathname === "/pricing") && (
+            <HamburgerMenu />
+          )}
         </nav>
 
         <div className="flex">
