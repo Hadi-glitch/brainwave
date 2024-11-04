@@ -125,7 +125,7 @@ const Header = () => {
 
         <Button
           className={`ml-auto lg:hidden ${
-            pathname === "/generation" || (pathname === "/pricing" && "hidden")
+            (pathname === "/generation" || pathname === "/pricing") && "hidden"
           }`}
           px="px-3"
           onClick={toggleNavigation}
