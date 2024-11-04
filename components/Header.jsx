@@ -81,9 +81,7 @@ const Header = () => {
               ))}
             </div>
           )}
-          {!(pathname === "/generation" || pathname === "/pricing") && (
-            <HamburgerMenu />
-          )}
+          <HamburgerMenu />
         </nav>
 
         <div className="flex">
@@ -127,7 +125,7 @@ const Header = () => {
 
         <Button
           className={`ml-auto lg:hidden ${
-            pathname === "/generation" && "hidden"
+            pathname === "/generation" || (pathname === "/pricing" && "hidden")
           }`}
           px="px-3"
           onClick={toggleNavigation}
